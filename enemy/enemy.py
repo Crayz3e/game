@@ -9,47 +9,47 @@ class Enemy(ABC):
 
     def move(self, trace, speed):
         pos = 0
-        while (self.x < end_x && self.y < end_y):
-            while (self.x <= trace[pos][0] && self.y <= trace[pos][1]):
-                if (self.x + speed > trace[pos][0]):
+        while self.x < self.end_x and self.y < self.end_y:
+            while self.x <= trace[pos][0] and self.y <= trace[pos][1]:
+                if self.x + speed > trace[pos][0]:
                     self.x = trace[pos][0]
                 else:
                     self.x += speed
 
-                if (self.y + speed > trace[pos][1]):
+                if self.y + speed > trace[pos][1]:
                     self.y = trace[pos][1]
                 else:
                     self.y += speed
 
-            while (self.x <= trace[pos][0] && self.y >= trace[pos][1]):
-                if (self.x + speed > trace[pos][0]):
+            while self.x <= trace[pos][0] and self.y >= trace[pos][1]:
+                if self.x + speed > trace[pos][0]:
                     self.x = trace[pos][0]
                 else:
                     self.x += speed
 
-                if (self.y - speed < trace[pos][1]):
+                if self.y - speed < trace[pos][1]:
                     self.y = trace[pos][1]
                 else:
                     self.y -= speed
                 
-            while (self.x >= trace[pos][0] && self.y >= trace[pos][1]):
-                if (self.x - speed < trace[pos][0]):
+            while self.x >= trace[pos][0] and self.y >= trace[pos][1]:
+                if self.x - speed < trace[pos][0]):
                     self.x = trace[pos][0]
                 else:
                     self.x -= speed
 
-                if (self.y - speed < trace[pos][1]):
+                if self.y - speed < trace[pos][1]:
                     self.y = trace[pos][1]
                 else:
                     self.y -= speed
 
-            while (self.x >= trace[pos][0] && self.y <= trace[pos][1]):
-                if (self.x - speed < trace[pos][0]):
+            while self.x >= trace[pos][0] and self.y <= trace[pos][1]:
+                if self.x - speed < trace[pos][0]:
                     self.x = trace[pos][0]
                 else:
                     self.x -= speed
 
-                if (self.y + speed > trace[pos][1]):
+                if self.y + speed > trace[pos][1]:
                     self.y = trace[pos][1]
                 else:
                     self.y += speed
