@@ -17,6 +17,8 @@ display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 pygame.display.set_caption('For!')
 
+difficulty = [1, 2, 4]
+
 map_image = [pygame.image.load(current_path + f"/images/td-tileset3/PNG/game_background_{str(i)}"
                                               f"/game_background_{str(i)}.png")
              for i in range(1, 5)]
@@ -32,7 +34,6 @@ def run_game():
 
     while game:
         pygame.time.delay(30)
-        display.fill([255, 255, 255])
         display.blit(bg, (0, 0))
 
         for event in pygame.event.get():
@@ -41,12 +42,13 @@ def run_game():
                 break
 
         if menu_true:
-
             menu1 = menu.Menu(display)
 
-            map_img, dif_img, music_img, menu_true = menu1.run_menu()
-            bg = map_image[map_img]
-
+            map_ind, dif_img, music_img, menu_true = menu1.run_menu()
+            bg = map_image[map_ind]
+        else:
+            
+            if (map_ind == 0):            
         pygame.display.flip()
 
     pygame.quit()
