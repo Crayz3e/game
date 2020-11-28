@@ -32,4 +32,3 @@ class Tower(object):
                 norm_vector_x, norm_vector_y = rel_x / lendth_vector, rel_y / lendth_vector
                 bullet.h_speed = int(norm_vector_x * bullet.speed)
                 bullet.v_speed = int(norm_vector_y * bullet.speed)
-                
