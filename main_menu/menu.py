@@ -71,7 +71,7 @@ class Menu:
 
         pygame.mixer.music.load(current_path + "/music/Rihanna.mp3")
         pygame.mixer.music.play(-1)
-        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.set_volume(0.2)
 
         while run:
 
