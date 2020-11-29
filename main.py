@@ -75,8 +75,8 @@ def run_game():
 
     bg = pygame.image.load(current_path + "/images/bg1.jpg")
 
-    zip_cnt = 60
-    je_cnt = 394
+    zip_cnt = 100
+    je_cnt = 500
     heart_cnt = 100
 
     while game:
@@ -212,10 +212,6 @@ def run_game():
                         print('time stop')
                     if button_stones.pressed(mouse_position):
                         print('stones')
-
-            zip_cnt += random.choice([-5, -3, -1, 2, 4, 6])
-            je_cnt += random.choice([-5, -3, -1, 2, 4, 6])
-            heart_cnt += random.choice([-5, -3, -1, 2, 4, 6])
 
             zip_cnt = min(max(0, zip_cnt), 100)
             je_cnt = min(max(0, je_cnt), 999)

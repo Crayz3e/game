@@ -197,7 +197,7 @@ class Menu:
                             self.empty_button = None
                             self.music_images = None
 
-                            self.display.blit(pygame.image.load(current_path + "/images/bg.jpg"), (0, 0))
+                            # self.display.blit(pygame.image.load(current_path + "/images/bg.jpg"), (0, 0))
 
                             return ind_map, dif_img, music_img, False
 
