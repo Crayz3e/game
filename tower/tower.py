@@ -12,8 +12,8 @@ class Tower(object):
         self.selected = False
         self.range = 0
         self.tower_images = None
-        self.damage = 1
         self.price = 0
+        self.radius = 200
         
         self.place_color = (255, 0, 0)
 
@@ -28,8 +28,12 @@ class Tower(object):
                 return True
         return False
 
-    # def attack_radius(self, win):
-    # нужно ли, чтобы область атаки подсвечивалась?
+    def attack(self, enemies):
+        for enemy in enemies:
+            if (enemy.x - self.x) **2 + (enemy.y - self.y)**2 <= self.radius**2:
+                enemy.hp -= 2
+                return True
+        return False
 
     def draw_placement_range(self, win):
         surface = pygame.Surface((self.range * 4, self.range * 4), pygame.SRCALPHA, 32)

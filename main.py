@@ -1,5 +1,6 @@
 import pygame
 import os
+import math
 import main_menu.menu as menu
 import main_menu.button as button
 from enemy.enemy import Enemy
@@ -31,6 +32,8 @@ resources_images = [pygame.image.load(current_path + f"/images/td-gui/PNG/interf
 
 mini_menu_image = pygame.image.load(current_path + f"/images/td-gui/PNG/win/button_menu.png")
 
+tower_attack_img = [pygame.image.load(current_path + f"/images/archers/{i}.png") for i in range(38, 44)]
+
 enemy_img0 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_run_000.png")
 enemy_img1 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_run_002.png")
 enemy_img2 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_run_004.png")
@@ -44,18 +47,11 @@ enemy_img9 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprit
 enemy_img10 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_run_017.png")
 enemy_img11 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_run_019.png")
 
-enemy_die0 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_000.png")
-enemy_die1 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_002.png")
-enemy_die2 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_004.png")
-enemy_die3 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_005.png")
-enemy_die4 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_006.png")
-enemy_die5 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_007.png")
-enemy_die6 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_009.png")
-enemy_die7 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_011.png")
-enemy_die8 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_013.png")
-enemy_die9 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_015.png")
-enemy_die10 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_017.png")
-enemy_die11 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_019.png")
+enemy_die_img = [pygame.transform.scale(pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_0{i}.png"),
+                                        (150, 130)) for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
+
+fire_img = [pygame.transform.scale(pygame.image.load(current_path + f"/images/magic-effects-game-sprite/PNG/fire/1_effect_fire_0{i}.png"), (900, 1080))
+                              for i in ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18"]]
 
 music_images = [pygame.image.load(current_path + "/images/td-gui/PNG/menu/button_music" + img + ".png")
                 for img in ["", "_off"]]
@@ -115,6 +111,7 @@ def add_tower(event, click):
 def run_game():
     game = True
     menu_true = True
+    fire = False
 
     bg = pygame.image.load(current_path + "/images/bg1.jpg")
 
@@ -271,8 +268,8 @@ def run_game():
                     if button_close.pressed(mouse_position):
                         game = False
                     if button_archer.pressed(mouse_position) or not_clicked:
-                        if zip_cnt >= 50:
-                            zip_cnt -= 50
+                        if je_cnt >= 50:
+                            je_cnt -= 50
                             not_clicked = True
 
                             tower_img = pygame.image.load(current_path + "/images/arch_towers/11.png")
@@ -287,7 +284,10 @@ def run_game():
                     if button_stone.pressed(mouse_position):
                         print('stones')
                     if button_fire.pressed(mouse_position):
-                        print('fire')
+                        if zip_cnt >= 100:
+                            zip_cnt -= 100
+                            fire_it = 1
+                            fire = True
                     if button_lightning.pressed(mouse_position):
                         print('lightning')
                     if button_armour_red.pressed(mouse_position):
@@ -309,8 +309,14 @@ def run_game():
             je_cnt = min(max(0, je_cnt), 999)
             heart_cnt = min(max(0, heart_cnt), 100)
 
-            for tw in archer_towers:
-                display.blit(pygame.image.load(current_path + "/images/arch_towers/11.png"), (tw.x + 170, tw.y))
+            if fire:
+                display.blit(fire_img[fire_it], (450, -450))
+                fire_it += 1
+                if fire_it % 19 == 0:
+                    fire = False
+                    for enemy1 in enemies:
+                        enemy1.hp = 0
+
 
             if time % 70 == 0:
                 path = 0
@@ -329,18 +335,7 @@ def run_game():
 
             for enemy1 in enemies:
                 if enemy1.hp <= 0:
-                    display.blit(pygame.transform.scale(enemy_die0, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
-                    display.blit(pygame.transform.scale(enemy_die1, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
-                    display.blit(pygame.transform.scale(enemy_die2, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
-                    display.blit(pygame.transform.scale(enemy_die3, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
-                    display.blit(pygame.transform.scale(enemy_die4, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
-                    display.blit(pygame.transform.scale(enemy_die5, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
-                    display.blit(pygame.transform.scale(enemy_die6, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
-                    display.blit(pygame.transform.scale(enemy_die7, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
-                    display.blit(pygame.transform.scale(enemy_die8, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
-                    display.blit(pygame.transform.scale(enemy_die9, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
-                    display.blit(pygame.transform.scale(enemy_die10, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
-                    display.blit(pygame.transform.scale(enemy_die11, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(enemy_die_img[time % 11], (enemy1.x - 70, enemy1.y - 70))
                     enemies.remove(enemy1)
 
             if position % 12 == 0:
@@ -380,6 +375,17 @@ def run_game():
                 for enemy1 in enemies:
                     display.blit(pygame.transform.scale(enemy_img11, (150, 130)), (enemy1.x - 70, enemy1.y - 70))  
             position += 1
+
+            for tw in archer_towers:
+                display.blit(pygame.image.load(current_path + "/images/arch_towers/11.png"), (tw.x + 170, tw.y))
+                # display.blit(pygame.image.load(current_path + "/images/archers/38.png"), (tw.x + 220, tw.y - 15))
+
+                if tw.attack(enemies):
+                    display.blit(tower_attack_img[0 + time % 6], (tw.x + 220, tw.y - 15))
+                    if time % 6 == 1 or time % 6 == 2 or time % 6 == 3:
+                        display.blit(pygame.image.load(current_path + "/images/archers/37.png"), (tw.x + 270, tw.y - 15))
+                else:
+                    display.blit(pygame.image.load(current_path + "/images/archers/38.png"), (tw.x + 220, tw.y - 15))
 
         pygame.display.flip()
 
