@@ -49,7 +49,7 @@ enemy_die2 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprit
 enemy_die3 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_005.png")
 enemy_die4 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_006.png")
 enemy_die5 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_007.png")
-enemy_die6 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_09.png")
+enemy_die6 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_009.png")
 enemy_die7 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_011.png")
 enemy_die8 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_013.png")
 enemy_die9 = pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_015.png")
@@ -99,8 +99,8 @@ def run_game():
 
     bg = pygame.image.load(current_path + "/images/bg1.jpg")
 
-    zip_cnt = 100
-    je_cnt = 500
+    zip_cnt = 50
+    je_cnt = 300
     heart_cnt = 100
 
     time = 0
@@ -121,8 +121,8 @@ def run_game():
         if menu_true:
             menu1 = menu.Menu(display)
 
-            map_img, dif_img, music_img, menu_true = menu1.run_menu()
-            bg = map_image[map_img]
+            map_ind, dif_ind, music_img, menu_true = menu1.run_menu()
+            bg = map_image[map_ind]
 
         else:
             table_1_position = (10, 10)
@@ -270,8 +270,9 @@ def run_game():
                     if button_stones.pressed(mouse_position):
                         print('stones')
 
-            zip_cnt += 1
-            je_cnt += 1
+            if time % 100:
+                zip_cnt += (3 - dif_ind)
+                je_cnt += (3 - dif_ind)
 
             zip_cnt = min(max(0, zip_cnt), 100)
             je_cnt = min(max(0, je_cnt), 999)
@@ -280,7 +281,7 @@ def run_game():
             if time % 70 == 0:
                 path = 0
                 new_enemy = Enemy(path_map1[path][0][0], path_map1[path][0][1], path_map1[path][-1][0],
-                                  path_map1[path][-1][1], 50 * hard, 10 * hard, 0, path)
+                                  path_map1[path][-1][1], 50 * hard, 5 * hard, 0, path)
                 enemies.append(new_enemy)
             if time % 1000 == 0:
                 hard += 1
@@ -294,56 +295,56 @@ def run_game():
 
             for enemy1 in enemies:
                 if enemy1.hp <= 0:
-                    display.blit(pygame.transform.scale(enemy_die0, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                    display.blit(pygame.transform.scale(enemy_die1, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                    display.blit(pygame.transform.scale(enemy_die2, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                    display.blit(pygame.transform.scale(enemy_die3, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                    display.blit(pygame.transform.scale(enemy_die4, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                    display.blit(pygame.transform.scale(enemy_die5, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                    display.blit(pygame.transform.scale(enemy_die6, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                    display.blit(pygame.transform.scale(enemy_die7, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                    display.blit(pygame.transform.scale(enemy_die8, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                    display.blit(pygame.transform.scale(enemy_die9, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                    display.blit(pygame.transform.scale(enemy_die10, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                    display.blit(pygame.transform.scale(enemy_die11, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+                    display.blit(pygame.transform.scale(enemy_die0, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(pygame.transform.scale(enemy_die1, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(pygame.transform.scale(enemy_die2, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(pygame.transform.scale(enemy_die3, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(pygame.transform.scale(enemy_die4, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(pygame.transform.scale(enemy_die5, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(pygame.transform.scale(enemy_die6, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(pygame.transform.scale(enemy_die7, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(pygame.transform.scale(enemy_die8, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(pygame.transform.scale(enemy_die9, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(pygame.transform.scale(enemy_die10, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
+                    display.blit(pygame.transform.scale(enemy_die11, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
                     enemies.remove(enemy1)
 
             if position % 12 == 0:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img0, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+                    display.blit(pygame.transform.scale(enemy_img0, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
             elif position % 12 == 1:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img1, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+                    display.blit(pygame.transform.scale(enemy_img1, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
             elif position % 12 == 2:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img2, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+                    display.blit(pygame.transform.scale(enemy_img2, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
             elif position % 12 == 3:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img3, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+                    display.blit(pygame.transform.scale(enemy_img3, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
             elif position % 12 == 4:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img4, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+                    display.blit(pygame.transform.scale(enemy_img4, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
             elif position % 12 == 5:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img5, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+                    display.blit(pygame.transform.scale(enemy_img5, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
             elif position % 12 == 6:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img6, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+                    display.blit(pygame.transform.scale(enemy_img6, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
             elif position % 12 == 7:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img7, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+                    display.blit(pygame.transform.scale(enemy_img7, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
             elif position % 12 == 8:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img8, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+                    display.blit(pygame.transform.scale(enemy_img8, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
             elif position % 12 == 9:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img9, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+                    display.blit(pygame.transform.scale(enemy_img9, (150, 130)), (enemy1.x - 70, enemy1.y - 70))
             elif position % 12 == 10:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img10, (150, 130)), (enemy1.x - 30, enemy1.y - 30))              
+                    display.blit(pygame.transform.scale(enemy_img10, (150, 130)), (enemy1.x - 70, enemy1.y - 70))              
             elif position % 12 == 11:
                 for enemy1 in enemies:
-                    display.blit(pygame.transform.scale(enemy_img11, (150, 130)), (enemy1.x - 30, enemy1.y - 30))  
+                    display.blit(pygame.transform.scale(enemy_img11, (150, 130)), (enemy1.x - 70, enemy1.y - 70))  
             position += 1
 
         pygame.display.flip()

@@ -197,7 +197,7 @@ class Menu:
                             self.empty_button = None
                             self.music_images = None
 
-                            return ind_map, dif_img, music_img, False
+                            return ind_map, ind_dif, music_img, False
 
             pygame.display.flip()
 
