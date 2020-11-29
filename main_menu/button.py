@@ -21,6 +21,13 @@ class Button:
     def get_pos(self):
         return self.position
 
+    def direct(self):
+        if self.position[0] <= pygame.mouse.get_pos()[0] <= (self.position[0] + self.width):
+            if self.position[1] <= pygame.mouse.get_pos()[1] <= (self.position[1] + self.height):
+                return True
+
+        return False
+
     def __del__(self):
         self.position = (0, 0)
         self.width = 0
