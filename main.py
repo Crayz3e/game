@@ -2,6 +2,8 @@ import pygame
 import os
 import main_menu.menu as menu
 import main_menu.button as button
+from enemy.enemy import Enemy
+import random
 
 pygame.init()
 
@@ -10,10 +12,11 @@ current_path = os.path.dirname(__file__)
 display_width = 1920
 display_height = 1080
 
-path_map1 = [[(1210, 265), (1210, 265), (1210, 265), (1137, 435), (1137, 435), (1137, 435), (974, 568), (974, 568), (974, 568), (974, 760), (974, 760), (974, 760), (1219, 809), (1219, 809), (1219, 809), (1456, 852), (1456, 852), (1772, 894), (1772, 894), (1915, 903), (1915, 903), (1915, 903), (1919, 894), (1919, 894)],
-             [(1210, 254), (1210, 254), (1146, 396), (1146, 396), (1036, 540), (922, 558), (922, 558), (784, 489), (784, 489), (784, 489), (633, 426), (633, 426), (633, 426), (587, 303), (587, 303), (512, 153), (512, 153), (512, 153), (318, 113), (318, 113), (318, 113), (264, 32), (264, 32), (264, 32), (258, 0), (258, 0), (258, 0), (258, 0), (258, 0)],
-             [(1215, 260), (1215, 260), (1151, 352), (1151, 352), (1151, 352), (1109, 473), (1109, 473), (976, 552), (976, 552), (847, 519), (847, 519), (693, 463), (693, 463), (554, 412), (554, 412), (442, 404), (442, 404), (357, 516), (357, 516), (195, 725), (195, 725), (195, 725), (51, 732), (51, 732), (0, 732), (0, 732), (0, 732)]
-             ]
+path_map1 = [[(1210, 265), (1137, 435), (974, 568), (974, 760), (1219, 809), (1456, 852), (1772, 894), (1915, 903), (1919, 894)]
+, [(1210, 254), (1146, 396), (1036, 540), (922, 558), (784, 489), (633, 426), (587, 303), (512, 153), (318, 113), (264, 32), (258, 0)]
+, [(1215, 260), (1151, 352), (1109, 473), (976, 552), (847, 519), (693, 463), (554, 412), (442, 404), (357, 516), (195, 725), (51, 732), (0, 732)]
+]
+
 
 display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
@@ -74,11 +77,16 @@ def run_game():
 
     bg = pygame.image.load(current_path + "/images/bg1.jpg")
 
-    zip_cnt = 60
-    je_cnt = 394
+    zip_cnt = 100
+    je_cnt = 500
     heart_cnt = 100
 
+    time = 0
+    enemies = []
+    hard = 1
+
     while game:
+        time += 1
         pygame.time.delay(30)
         display.blit(bg, (0, 0))
 
@@ -240,6 +248,20 @@ def run_game():
             je_cnt = min(max(0, je_cnt), 999)
             heart_cnt = min(max(0, heart_cnt), 100)
 
+            if (time % 10 == 0):
+                path = random.randint(0, 2)
+                new_enemy = Enemy(path_map1[path][0][0], path_map1[path][0][1], path_map1[path][-1][0], path_map1[path][-1][1], 10 * hard, 1 * hard, 0, path)
+                enemies.append(new_enemy)
+            if (time % 100 == 0):
+                hard += 1
+            
+            for enemy1 in enemies:
+                if enemy1.x == path_map1[enemy1.path][-1][0] and enemy1.y == path_map1[enemy1.path][-1][1]:
+                    enemies.remove(enemy1)
+                    heart_cnt -= 10
+                enemy1.move(path_map1[enemy1.path], enemy1.speed)
+
+                
         pygame.display.flip()
 
     pygame.quit()
