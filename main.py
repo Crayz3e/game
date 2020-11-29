@@ -252,11 +252,11 @@ def run_game():
             je_cnt = min(max(0, je_cnt), 999)
             heart_cnt = min(max(0, heart_cnt), 100)
 
-            if time % 10 == 0:
+            if time % 70 == 0:
                 path = random.randint(0, 2)
                 new_enemy = Enemy(path_map1[path][0][0], path_map1[path][0][1], path_map1[path][-1][0], path_map1[path][-1][1], 10 * hard, 1 * hard, 0, path)
                 enemies.append(new_enemy)
-            if time % 100 == 0:
+            if time % 1000 == 0:
                 hard += 1
             
             for enemy1 in enemies:
@@ -266,7 +266,7 @@ def run_game():
                 enemy1.move(path_map1[enemy1.path], enemy1.speed)
 
             for enemy1 in enemies:
-                display.blit(enemy_img0, (enemy.x, enemy.y))
+                display.blit(pygame.transform.scale(enemy_img0, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
                 
         pygame.display.flip()
 
