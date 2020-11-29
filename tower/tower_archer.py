@@ -5,6 +5,7 @@ from Towers.tower import Tower
 
 import math
 
+menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images/td-gui/PNG", "bg.png")).convert_alpha(), (120, 70))
 archer_imgs1 = []
 
 for i in range(37, 44):
@@ -20,7 +21,7 @@ class ArcherTower(Tower):
         #я взяла с того туториала на ютубе эту идею хд
         self.tower_imgs = tower_imgs1
         self.archer_imgs = archer_imgs1[:]
-        self.archer_count = 200 #сколько лучников?
+        self.archer_count = 200
         self.range = 200
         self.original_range = self.range
         self.in_range = False
@@ -30,10 +31,11 @@ class ArcherTower(Tower):
         self.original_damage = self.damage
         self.moving = False
         self.name = "archer"
-        #self.menu
 
-    #def get_cost(self):
-        #return self.menu.
+        self.menu = Menu(self.x, self.y, menu_bg)
+
+    def get_cost(self):
+        return self.menu.get_item_cost()
 
     def draw(self, win):
         super().draw_range(win)

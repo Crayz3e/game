@@ -5,6 +5,8 @@ import os
 #from ??? import menu ???
 #у нас ведь будет меню для магазина, чтобы покупать башни?
 
+menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images/td-gui/PNG", "bg.png")).convert_alpha(), (120, 70))
+
 class Tower(object):
     def __init__(self, x, y):
         self.x = x
@@ -18,15 +20,15 @@ class Tower(object):
         self.damage = 1
         self.price = 0
 
-        #self.menu
+        self.menu = Menu(self.x, self.y, menu_bg)
+        
         self.place_color = (255, 0, 0)
 
     def draw(self, win):
         img = self.tower_imgs
         win.blit(img, (self.x - img.get_width()//2, self.y - img.get_height()//2))
-        #вот тут вообще думала вызывать меню
-        #if self.selected:
-        #    self.menu.draw(win)
+        if self.selected:
+            self.menu.draw(win)
 
     def clicked(self, x_pos, y_pos):
         img = self.tower_imgs
