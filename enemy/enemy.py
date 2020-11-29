@@ -51,4 +51,5 @@ class Enemy:
             else:
                 self.y += speed
 
-        self.pos += 1
+        if self.x == trace[self.pos][0] and self.y == trace[self.pos][1]:
+            self.pos += 1
