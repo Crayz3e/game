@@ -1,34 +1,27 @@
 import pygame
 import os
+import spells.spell as spell
 
 from Towers.tower import Tower
 
 import math
 
+menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images/td-gui/PNG.menu", "bg.png")).convert_alpha(), (120, 70))
 archer_imgs1 = []
 
-current_path = os.path.dirname(__file__)
+for i in range(64, 77):
+    tower_imgs1 = pygame.transform.scale(pygame.image.load(os.path.join("images/game/archers", str(x) + ".png")).convert_alpha(), (64, 64))
 
-ind = current_path.find("tower/")
+for i in range(2, 14):
+    archer_imgs1.append(pygame.image.load(os.path.join("images/game/mage_towers", str(x) + ".png")), convert_aplha(), (90, 90))
 
-current_path = current_path[:ind - len("tower/") + 1:]
-
-tower_imgs1 = [pygame.transform.scale(pygame.image.load(current_path + "/images/archers/" + str(i) + ".png"), (64, 64))
-               for i in range(37, 44)]
-
-
-archer_imgs1 = [pygame.transform.scale(pygame.image.load(current_path + "/images/arch_towers/" + str(i) + ".png"), (90, 90))
-                for i in [2, 4, 6, 7, 8, 9, 10, 11]]
-
-
-class ArcherTower(Tower):
+class MageTower(Tower):
     def __init__(self, x, y):
         super().__init__(x, y)
-        #я взяла с того туториала на ютубе эту идею хд
         self.tower_imgs = tower_imgs1
         self.archer_imgs = archer_imgs1[:]
         self.archer_count = 0
-        self.range = 200
+        self.range = 100
         self.original_range = self.range
         self.in_range = False
         self.left = True
@@ -36,10 +29,10 @@ class ArcherTower(Tower):
         self.width = self.height = 90
         self.original_damage = self.damage
         self.moving = False
-        self.name = "archer"
+        self.name = "mage"
 
     def get_cost(self):
-        return 50
+        return self.get_item_cost()
 
     def draw(self, win):
         super().draw(win)

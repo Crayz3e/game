@@ -3,6 +3,7 @@ import os
 import main_menu.menu as menu
 import main_menu.button as button
 from enemy.enemy import Enemy
+from tower.tower_archer import ArcherTower
 
 pygame.init()
 
@@ -65,6 +66,8 @@ icon_images = [pygame.image.load(current_path + "/images/td-gui/PNG/upgrade/ico_
 close_imgs = [pygame.image.load(current_path + "/images/td-gui/PNG/" + i + ".png")
               for i in ["settings/button_close", "levels/btton_empty"]]
 
+archer_towers = []
+
 
 def numbers(n: int):
     arr = []
@@ -91,6 +94,21 @@ def show_numbers(pos: tuple, n: int):
         display.blit(pygame.transform.scale(number_images[arr[1]], (15, 25)), pos)
     else:
         display.blit(pygame.transform.scale(number_images[arr[0]], (15, 25)), pos)
+
+
+def add_tower(event):
+    tower_img = pygame.image.load(current_path + "/images/arch_towers/11.png")
+    not_clicked = True
+
+    while not_clicked:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            (x, y) = pygame.mouse.get_pos()
+            display.blit(tower_img, (x, y))
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                tw = ArcherTower(x - tower_img.get_width(), y - tower_img.get_height())
+                archer_towers.append(tw)
+                not_clicked = False
 
 
 def run_game():
@@ -250,6 +268,9 @@ def run_game():
                     if button_close.pressed(mouse_position):
                         game = False
                     if button_archer.pressed(mouse_position):
+                        if zip_cnt >= 50:
+                            zip_cnt -= 50
+                            add_tower(event)
                         print('archer')
                     if button_magic.pressed(mouse_position):
                         print('magic')
