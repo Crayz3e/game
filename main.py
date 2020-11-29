@@ -3,7 +3,6 @@ import os
 import main_menu.menu as menu
 import main_menu.button as button
 from enemy.enemy import Enemy
-import random
 
 pygame.init()
 
@@ -12,11 +11,8 @@ current_path = os.path.dirname(__file__)
 display_width = 1920
 display_height = 1080
 
-path_map1 = [[(1210, 265), (1137, 435), (974, 568), (974, 760), (1219, 809), (1456, 852), (1772, 894), (1915, 903), (1919, 894)]
-, [(1210, 254), (1146, 396), (1036, 540), (922, 558), (784, 489), (633, 426), (587, 303), (512, 153), (318, 113), (264, 32), (258, 0)]
-, [(1215, 260), (1151, 352), (1109, 473), (976, 552), (847, 519), (693, 463), (554, 412), (442, 404), (357, 516), (195, 725), (51, 732), (0, 732)]
-]
-
+path_map1 = [[(1, 726), (208, 729), (294, 693), (341, 592), (371, 473), (467, 397), (583, 396), (685, 460), (815, 479),
+              (900, 572), (1001, 565), (1104, 522), (1145, 425), (1159, 327), (1184, 273), (1234, 249)]]
 
 display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
@@ -116,6 +112,11 @@ def run_game():
         time += 1
         pygame.time.delay(30)
         display.blit(bg, (0, 0))
+
+        if not heart_cnt:
+            failed = pygame.image.load(current_path + "/images/td-gui/PNG/failed/header_failed.png")
+            display.blit(failed, (960 - failed.get_width() / 2, 540 - failed.get_height() / 2))
+            game = False
 
         if menu_true:
             menu1 = menu.Menu(display)
@@ -245,6 +246,7 @@ def run_game():
                     show_numbers((icon_pos[0] + 176 * 9 + 90, icon_pos[1] - 30), 50)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
+
                     if button_close.pressed(mouse_position):
                         game = False
                     if button_archer.pressed(mouse_position):
@@ -276,8 +278,9 @@ def run_game():
             heart_cnt = min(max(0, heart_cnt), 100)
 
             if time % 70 == 0:
-                path = random.randint(0, 2)
-                new_enemy = Enemy(path_map1[path][0][0], path_map1[path][0][1], path_map1[path][-1][0], path_map1[path][-1][1], 50 * hard, 10 * hard, 0, path)
+                path = 0
+                new_enemy = Enemy(path_map1[path][0][0], path_map1[path][0][1], path_map1[path][-1][0],
+                                  path_map1[path][-1][1], 50 * hard, 10 * hard, 0, path)
                 enemies.append(new_enemy)
             if time % 1000 == 0:
                 hard += 1
@@ -342,6 +345,7 @@ def run_game():
                 for enemy1 in enemies:
                     display.blit(pygame.transform.scale(enemy_img11, (150, 130)), (enemy1.x - 30, enemy1.y - 30))  
             position += 1
+
         pygame.display.flip()
 
     pygame.quit()
