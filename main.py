@@ -132,9 +132,14 @@ def run_game():
         display.blit(bg, (0, 0))
 
         if not heart_cnt:
+            if enemies[0].speed:
+                t = time
+            for enemy1 in enemies:
+                enemy1.speed = 0
             failed = pygame.image.load(current_path + "/images/td-gui/PNG/failed/header_failed.png")
-            display.blit(failed, (960 - failed.get_width() / 2, 540 - failed.get_height() / 2))
-            game = False
+            display.blit(failed, (960 - failed.get_width() / 2, 540 - failed.get_height()))
+            if time - t == 100:
+                game = False
 
         if menu_true:
             menu1 = menu.Menu(display)
@@ -321,7 +326,7 @@ def run_game():
             if time % 70 == 0:
                 path = 0
                 new_enemy = Enemy(path_map1[path][0][0], path_map1[path][0][1], path_map1[path][-1][0],
-                                  path_map1[path][-1][1], 50 * hard, 5 * hard, 0, path)
+                                  path_map1[path][-1][1], 100 * hard, 5 * hard, 0, path)
                 enemies.append(new_enemy)
             if time % 1000 == 0:
                 hard += 1
@@ -386,6 +391,16 @@ def run_game():
                         display.blit(pygame.image.load(current_path + "/images/archers/37.png"), (tw.x + 270, tw.y - 15))
                 else:
                     display.blit(pygame.image.load(current_path + "/images/archers/38.png"), (tw.x + 220, tw.y - 15))
+
+            if time >= 10000:
+                for enemy1 in enemies:
+                    enemy1.hp = 0
+
+                win = pygame.image.load(current_path + f"/images/td-gui/PNG/win/header_win.png")
+                display.blit(win, (960 - win.get_width() / 2, 540 - win.get_height()))
+
+            if time >= 10100:
+                game = False
 
         pygame.display.flip()
 

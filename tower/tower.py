@@ -31,7 +31,7 @@ class Tower(object):
     def attack(self, enemies):
         for enemy in enemies:
             if (enemy.x - self.x) **2 + (enemy.y - self.y)**2 <= self.radius**2:
-                enemy.hp -= 2
+                enemy.hp -= 1
                 return True
         return False
 
