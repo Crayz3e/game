@@ -88,6 +88,7 @@ def run_game():
     time = 0
     enemies = []
     hard = 1
+    position = 0
 
     while game:
         time += 1
@@ -254,7 +255,7 @@ def run_game():
 
             if time % 70 == 0:
                 path = random.randint(0, 2)
-                new_enemy = Enemy(path_map1[path][0][0], path_map1[path][0][1], path_map1[path][-1][0], path_map1[path][-1][1], 10 * hard, 1 * hard, 0, path)
+                new_enemy = Enemy(path_map1[path][0][0], path_map1[path][0][1], path_map1[path][-1][0], path_map1[path][-1][1], 50 * hard, 10 * hard, 0, path)
                 enemies.append(new_enemy)
             if time % 1000 == 0:
                 hard += 1
@@ -265,9 +266,17 @@ def run_game():
                     heart_cnt -= 10
                 enemy1.move(path_map1[enemy1.path], enemy1.speed)
 
-            for enemy1 in enemies:
-                display.blit(pygame.transform.scale(enemy_img0, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
-                
+            if position % 3 == 0:
+                for enemy1 in enemies:
+                    display.blit(pygame.transform.scale(enemy_img0, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+            elif position % 3 == 1:
+                for enemy1 in enemies:
+                    display.blit(pygame.transform.scale(enemy_img1, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+            else:
+                for enemy1 in enemies:
+                    display.blit(pygame.transform.scale(enemy_img2, (150, 130)), (enemy1.x - 30, enemy1.y - 30))
+
+            position += 1
         pygame.display.flip()
 
     pygame.quit()
