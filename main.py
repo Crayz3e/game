@@ -264,6 +264,7 @@ def run_game():
                 if enemy1.x == path_map1[enemy1.path][-1][0] and enemy1.y == path_map1[enemy1.path][-1][1]:
                     enemies.remove(enemy1)
                     heart_cnt -= 10
+                    continue
                 enemy1.move(path_map1[enemy1.path], enemy1.speed)
 
             if position % 3 == 0:
