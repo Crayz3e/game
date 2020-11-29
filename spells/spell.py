@@ -1,3 +1,5 @@
+import pygame
+
 class Bullet(pygame.sprite.Sprite):
     def _init_(self, tower):
         pygame.sprite.Sprite._init_(self)

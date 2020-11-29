@@ -1,6 +1,6 @@
 import pygame
 import math
-import os
+
 
 class Tower(object):
     def __init__(self, x, y):
@@ -11,25 +11,25 @@ class Tower(object):
 
         self.selected = False
         self.range = 0
-        self.tower_imgs = None
+        self.tower_images = None
         self.damage = 1
         self.price = 0
         
         self.place_color = (255, 0, 0)
 
     def draw(self, win):
-        img = self.tower_imgs
+        img = self.tower_images
         win.blit(img, (self.x - img.get_width()//2, self.y - img.get_height()//2))
 
     def clicked(self, x_pos, y_pos):
-        img = self.tower_imgs
-        if self.x - img.get_width()//2 + self.width >= x_pos and x_pos >= self.x - img.get_width()//2:
-            if self.y + self.height - img.get_height()//2 >= y_pos and y_pos >= self.y - img.get_height()//2:
+        img = self.tower_images
+        if self.x - img.get_width()//2 + self.width >= x_pos >= self.x - img.get_width()//2:
+            if self.y + self.height - img.get_height()//2 >= y_pos >= self.y - img.get_height()//2:
                 return True
         return False
 
-    #def attack_radius(self, win):
-    #нужно ли, чтобы область атаки подсвечивалась?
+    # def attack_radius(self, win):
+    # нужно ли, чтобы область атаки подсвечивалась?
 
     def draw_placement_range(self, win):
         surface = pygame.Surface((self.range * 4, self.range * 4), pygame.SRCALPHA, 32)

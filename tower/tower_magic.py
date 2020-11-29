@@ -1,8 +1,7 @@
 import pygame
 import os
 import spells.spell as spell
-
-from Towers.tower import Tower
+from tower.tower import Tower
 
 import math
 
@@ -10,10 +9,10 @@ menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("images/td-gui/P
 archer_imgs1 = []
 
 for i in range(64, 77):
-    tower_imgs1 = pygame.transform.scale(pygame.image.load(os.path.join("images/game/archers", str(x) + ".png")).convert_alpha(), (64, 64))
+    tower_imgs1 = pygame.transform.scale(pygame.image.load(os.path.join("images/game/archers", str(i) + ".png")).convert_alpha(), (64, 64))
 
 for i in range(2, 14):
-    archer_imgs1.append(pygame.image.load(os.path.join("images/game/mage_towers", str(x) + ".png")), convert_aplha(), (90, 90))
+    archer_imgs1.append(pygame.image.load(os.path.join("images/game/mage_towers", str(i) + ".png")).convert_aplha(), (90, 90))
 
 class MageTower(Tower):
     def __init__(self, x, y):

@@ -1,11 +1,6 @@
 import pygame
 import os
-
-from Towers.tower import Tower
-
-import math
-
-archer_imgs1 = []
+from tower.tower import Tower
 
 current_path = os.path.dirname(__file__)
 
@@ -17,14 +12,15 @@ tower_imgs1 = [pygame.transform.scale(pygame.image.load(current_path + "/images/
                for i in range(37, 44)]
 
 
-archer_imgs1 = [pygame.transform.scale(pygame.image.load(current_path + "/images/arch_towers/" + str(i) + ".png"), (90, 90))
+archer_imgs1 = [pygame.transform.scale(pygame.image.load(current_path + "/images/arch_towers/" + str(i) + ".png"),
+                                       (90, 90))
                 for i in [2, 4, 6, 7, 8, 9, 10, 11]]
 
 
 class ArcherTower(Tower):
     def __init__(self, x, y):
         super().__init__(x, y)
-        #я взяла с того туториала на ютубе эту идею хд
+        # я взяла с того туториала на ютубе эту идею хд
         self.tower_imgs = tower_imgs1
         self.archer_imgs = archer_imgs1[:]
         self.archer_count = 0
@@ -37,9 +33,10 @@ class ArcherTower(Tower):
         self.original_damage = self.damage
         self.moving = False
         self.name = "archer"
+        self.cost = 50
 
     def get_cost(self):
-        return 50
+        return self.cost
 
     def draw(self, win):
         super().draw(win)
