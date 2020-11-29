@@ -63,7 +63,7 @@ class Menu:
                     self.height / 2 + self.play_image.get_height() / 2)
 
         button_play = Button(play_pos, self.play_image.get_width(), self.play_image.get_height(), self.play_image)
-        button_play.create_button(self.display)
+        button_play.draw(self.display)
 
         ind_map = 0
         ind_dif = 1
@@ -209,11 +209,6 @@ class Menu:
         table_y0 = -900  # -3600 for chain
         table_y = self.height / 2 - self.table_image.get_height() / 2
 
-        """
-        pygame.mixer.music.load(current_path + "/music/chain.mp3")
-        pygame.mixer.music.play(-1)
-        pygame.mixer.music.set_volume(0.5)
-        """
         while table_y0 <= table_y:
             self.display.blit(self.bg, (0, 0))
             dy = table_y0 - table_y
@@ -286,7 +281,6 @@ class Menu:
 
             pygame.display.flip()
         else:
-            # pygame.mixer.music.pause()
             return True
 
     def play(self, position1: tuple, position2: tuple):

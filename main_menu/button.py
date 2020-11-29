@@ -8,9 +8,8 @@ class Button:
         self.height = height
         self.image = image
 
-    def create_button(self, screen):
+    def draw(self, screen):
         screen.blit(self.image, self.position)
-        pygame.display.update()
 
     def pressed(self, mouse: tuple):
         if self.position[0] <= mouse[0] <= (self.position[0] + self.width):
