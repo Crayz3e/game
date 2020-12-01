@@ -31,6 +31,8 @@ number_images = [pygame.image.load(current_path + f"/images/td-gui/PNG/levels/nu
 interface_images = [pygame.image.load(current_path + f"/images/td-gui/PNG/interface_game/{i}.png")
                     for i in ["table", "bg_bar", "bar_1", "bar_2", "bar_4", "table_down"]]
 
+back_image = pygame.image.load(current_path + f"/images/td-gui/PNG/failed/button_restart.png")
+
 resources_images = [pygame.image.load(current_path + f"/images/td-gui/PNG/interface_game/{i}.png")
                     for i in ["zip", "je", "heart"]]
 
@@ -239,6 +241,7 @@ def run_game():
             heart_number_pos = (450, 255)
 
             close_pos = (1740, 10)
+            back_pos = (1740, 185)
 
             table_down_pos = (-25, 955)
 
@@ -246,6 +249,8 @@ def run_game():
 
             button_close = button.Button(close_pos, close_imgs[1].get_width(),
                                          close_imgs[1].get_height(), close_imgs[1])
+
+            button_back = button.Button(back_pos, back_image.get_width(), back_image.get_height(), back_image)
 
             button_archer = button.Button(icon_pos, icon_images[0].get_width(),
                                           icon_images[0].get_height(), icon_images[0])
@@ -279,6 +284,8 @@ def run_game():
 
             display.blit(close_imgs[1], close_pos)
             display.blit(close_imgs[0], (close_pos[0] + 35, close_pos[1] + 32))
+
+            display.blit(back_image, back_pos)
 
             display.blit(interface_images[5], table_down_pos)
 
@@ -346,6 +353,8 @@ def run_game():
 
                     if button_close.pressed(mouse_position):
                         game = False
+                    elif button_back.pressed(mouse_position):
+                        menu_true = True
                     elif button_archer.pressed(mouse_position) or not_clicked_archer:
                         if je_cnt >= 50:
                             je_cnt -= 50

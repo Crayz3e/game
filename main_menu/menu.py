@@ -56,6 +56,8 @@ class Menu:
         run = True
         level_table = False
 
+        self.display.blit(self.bg, (0, 0))
+
         name_position = (20, self.height / 2 - self.game_name.get_height() - 150)
         self.display.blit(self.game_name, name_position)
 
