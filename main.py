@@ -218,6 +218,41 @@ def run_game():
                 game = False
 
         if menu_true:
+            enemies.clear()
+            stone_towers.clear()
+            magic_towers.clear()
+            archer_towers.clear()
+            game = True
+
+            zip_cnt = 0
+            je_cnt = 50
+            heart_cnt = 100
+
+            time = 0
+            hard = 1
+            position = 0
+
+            fire = False
+            lig = False
+            arm = False
+            acid = False
+            freeze = False
+            time_magic = False
+            stone_magic = False
+
+            acid_dot = 0
+            arm_dot = 0
+            freeze_dot = 0
+            time_dot = 0
+
+            not_clicked_archer = False
+            not_clicked_stone = False
+            not_clicked_magic = False
+
+            buy_ar = False
+            buy_st = False
+            buy_mg = False
+
             menu1 = menu.Menu(display)
 
             map_ind, dif_ind, music_img, menu_true = menu1.run_menu()
