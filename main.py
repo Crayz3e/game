@@ -5,6 +5,7 @@ import main_menu.menu as menu
 import main_menu.button as button
 from enemy.enemy import Enemy
 from tower.tower_archer import ArcherTower
+from tower.tower import Tower
 
 pygame.init()
 
@@ -41,7 +42,11 @@ resources_images = [pygame.image.load(current_path + f"/images/td-gui/PNG/interf
 
 mini_menu_image = pygame.image.load(current_path + f"/images/td-gui/PNG/win/button_menu.png")
 
-tower_attack_img = [pygame.image.load(current_path + f"/images/archers/{i}.png") for i in range(38, 44)]
+tower_attack_img = [pygame.image.load(current_path + f"/images/archers/{i}.png") for i in range(64, 70)]
+
+magic_attack_img = [pygame.image.load(current_path + f"/images/magic-tower-game-assets/PNG/{i}.png") for i in range(19, 27)]
+
+stone_attack_img = [pygame.image.load(current_path + f"/images/stone_towers/{i}.png") for i in range(52, 62)]
 
 enemy_imgs = [pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_run_0{i}.png")
               for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
@@ -100,6 +105,8 @@ close_imgs = [pygame.image.load(current_path + "/images/td-gui/PNG/" + i + ".png
               for i in ["settings/button_close", "levels/btton_empty"]]
 
 archer_towers = []
+magic_towers = []
+stone_towers = []
 
 
 def numbers(n: int):
@@ -144,7 +151,7 @@ def run_game():
     bg = pygame.image.load(current_path + "/images/bg1.jpg")
 
     zip_cnt = 50
-    je_cnt = 300
+    je_cnt = 999
     heart_cnt = 100
 
     time = 0
@@ -308,39 +315,39 @@ def run_game():
                             je_cnt -= 50
                             not_clicked_archer = True
 
-                            tower_img = pygame.image.load(current_path + "/images/arch_towers/11.png")
+                            tower_img = pygame.image.load(current_path + "/images/arch_towers/6.png")
                             display.blit(tower_img, mouse_position)
 
-                            if event.type == pygame.MOUSEBUTTONDOWN and not button_archer.pressed(mouse_position):
-                                tw = ArcherTower(mouse_position[0] - tower_img.get_width(),
-                                                 mouse_position[1] - tower_img.get_height())
+                            if event.type == pygame.MOUSEBUTTONUP and not button_archer.pressed(mouse_position):
+                                tw = Tower(mouse_position[0] - tower_img.get_width() // 2 - 75,
+                                                 mouse_position[1] - tower_img.get_height(), 2)
                                 archer_towers.append(tw)
                                 not_clicked_archer = False
-                    if button_magic.pressed(mouse_position) or not_clicked_stone:
+                    if button_stone.pressed(mouse_position) or not_clicked_stone:
                         if je_cnt >= 75:
                             je_cnt -= 75
                             not_clicked_stone = True
 
-                            tower_img = pygame.image.load(current_path + "/images/arch_towers/11.png")
+                            tower_img = pygame.image.load(current_path + "/images/stone-tower-game-assets/PNG/17.png")
                             display.blit(tower_img, mouse_position)
 
-                            if event.type == pygame.MOUSEBUTTONDOWN and not button_archer.pressed(mouse_position):
-                                tw = ArcherTower(mouse_position[0] - tower_img.get_width(),
-                                                 mouse_position[1] - tower_img.get_height())
-                                archer_towers.append(tw)
+                            if event.type == pygame.MOUSEBUTTONUP and not button_stone.pressed(mouse_position):
+                                tw_s = Tower(mouse_position[0] - tower_img.get_width() // 2,
+                                                 mouse_position[1] - tower_img.get_height() + 18, 3)
+                                stone_towers.append(tw_s)
                                 not_clicked_stone = False
-                    if button_stone.pressed(mouse_position) or not_clicked_magic:
+                    if button_magic.pressed(mouse_position) or not_clicked_magic:
                         if je_cnt >= 100:
                             je_cnt -= 100
                             not_clicked_magic = True
 
-                            tower_img = pygame.image.load(current_path + "/images/arch_towers/11.png")
+                            tower_img = pygame.image.load(current_path + "/images/magic-tower-game-assets/PNG/8.png")
                             display.blit(tower_img, mouse_position)
 
-                            if event.type == pygame.MOUSEBUTTONDOWN and not button_archer.pressed(mouse_position):
-                                tw = ArcherTower(mouse_position[0] - tower_img.get_width(),
-                                                 mouse_position[1] - tower_img.get_height())
-                                archer_towers.append(tw)
+                            if event.type == pygame.MOUSEBUTTONUP and not button_magic.pressed(mouse_position):
+                                tw_m = Tower(mouse_position[0] - tower_img.get_width() // 2,
+                                                 mouse_position[1] - tower_img.get_height() + 50, 5)
+                                magic_towers.append(tw_m)
                                 not_clicked_magic = False
                     if button_fire.pressed(mouse_position):
                         if zip_cnt >= 100:
@@ -464,15 +471,27 @@ def run_game():
             position += 1
 
             for tw in archer_towers:
-                display.blit(pygame.image.load(current_path + "/images/arch_towers/11.png"), (tw.x + 170, tw.y))
+                display.blit(pygame.image.load(current_path + "/images/arch_towers/at.png"), (tw.x, tw.y))
 
                 if tw.attack(enemies):
-                    display.blit(tower_attack_img[0 + time % 6], (tw.x + 220, tw.y - 15))
+                    display.blit(tower_attack_img[time % 6], (tw.x + 130, tw.y + 18))
                     if time % 6 == 1 or time % 6 == 2 or time % 6 == 3:
                         display.blit(pygame.image.load(current_path + "/images/archers/37.png"),
-                                     (tw.x + 270, tw.y - 15))
+                                     (tw.x + 185, tw.y + 15))
                 else:
-                    display.blit(pygame.image.load(current_path + "/images/archers/38.png"), (tw.x + 220, tw.y - 15))
+                    display.blit(pygame.image.load(current_path + "/images/archers/64.png"), (tw.x + 130, tw.y + 18))
+
+            for tw_s in stone_towers:
+                display.blit(pygame.image.load(current_path + "/images/stone-tower-game-assets/PNG/17.png"), (tw_s.x, tw_s.y))
+
+                if tw_s.attack(enemies):
+                    display.blit(stone_attack_img[time % 10], (tw_s.x + 10, tw_s.y - 60))
+
+            for tw_m in magic_towers:
+                display.blit(pygame.image.load(current_path + "/images/magic-tower-game-assets/PNG/8.png"), (tw_m.x, tw_m.y))
+
+                if tw_m.attack(enemies):
+                    display.blit(magic_attack_img[time % 8], (tw_m.x + 63, tw_m.y - 150))
 
             if time >= 10000:
                 for enemy1 in enemies:

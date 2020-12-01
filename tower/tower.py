@@ -1,37 +1,60 @@
 import pygame
 import math
+import os
+
+current_path = os.path.dirname(__file__)
+
+ind = current_path.find("tower/")
+
+current_path = current_path[:ind - len("tower/") + 1:]
+
+tower_imgs1 = [pygame.transform.scale(pygame.image.load(current_path + "/images/archers/" + str(i) + ".png"), (64, 64))
+               for i in range(37, 44)]
+
+archer_imgs1 = [pygame.transform.scale(pygame.image.load(current_path + "/images/arch_towers/" + str(i) + ".png"),
+                                       (90, 90))
+                for i in [2, 4, 6, 7, 8, 9, 10, 11]]
+
+magic_imgs1 = [
+    pygame.transform.scale(pygame.image.load(current_path + "/images/mage_towers/" + str(i) + ".png"), (64, 64))
+    for i in [2, 3, 4, 6, 7, 8, 11, 12, 13]]
+
+"""stone_imgs1 = [
+    pygame.transform.scale(pygame.image.load(current_path + "/images/stone_towers/" + str(i) + ".png"), (64, 64))
+    for i in [3, 6, 7, 12, 13, 14]]"""
 
 
 class Tower(object):
-    def __init__(self, x, y):
+    def __init__(self, x, y, d):
         self.x = x
         self.y = y
         self.width = 0
         self.height = 0
+        self.damage = d
 
         self.selected = False
         self.range = 0
         self.tower_images = None
         self.price = 0
         self.radius = 200
-        
+
         self.place_color = (255, 0, 0)
 
     def draw(self, win):
         img = self.tower_images
-        win.blit(img, (self.x - img.get_width()//2, self.y - img.get_height()//2))
+        win.blit(img, (self.x - img.get_width() // 2, self.y - img.get_height() // 2))
 
     def clicked(self, x_pos, y_pos):
         img = self.tower_images
-        if self.x - img.get_width()//2 + self.width >= x_pos >= self.x - img.get_width()//2:
-            if self.y + self.height - img.get_height()//2 >= y_pos >= self.y - img.get_height()//2:
+        if self.x - img.get_width() // 2 + self.width >= x_pos >= self.x - img.get_width() // 2:
+            if self.y + self.height - img.get_height() // 2 >= y_pos >= self.y - img.get_height() // 2:
                 return True
         return False
 
     def attack(self, enemies):
         for enemy in enemies:
-            if (enemy.x - self.x) **2 + (enemy.y - self.y)**2 <= self.radius**2:
-                enemy.hp -= 1
+            if (enemy.x - self.x) ** 2 + (enemy.y - self.y) ** 2 <= self.radius ** 2:
+                enemy.hp -= self.damage
                 return True
         return False
 
@@ -52,8 +75,26 @@ class Tower(object):
         x2 = other_tower.x
         y2 = other_tower.y
 
-        dis = math.sqrt((x2 - self.x)**2 + (y2 - self.y)**2)
+        dis = math.sqrt((x2 - self.x) ** 2 + (y2 - self.y) ** 2)
         if dis >= 100:
             return False
         else:
             return True
+
+
+class ArcherTower(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.width = 0
+        self.height = 0
+
+        self.selected = False
+        self.range = 0
+        self.tower_imgs1 = tower_imgs1
+        self.price = 0
+        self.radius = 200
+        self.cost = 50
+
+    def get_cost(self):
+        return self.cost
