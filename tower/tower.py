@@ -25,18 +25,19 @@ magic_imgs1 = [
 
 
 class Tower(object):
-    def __init__(self, x, y, d):
+    def __init__(self, x, y, d, img, dis):
         self.x = x
         self.y = y
         self.width = 0
         self.height = 0
         self.damage = d
+        self.tower_images = img
+        self.dis = dis
 
         self.selected = False
         self.range = 0
-        self.tower_images = None
         self.price = 0
-        self.radius = 200
+        self.radius = 250
 
         self.place_color = (255, 0, 0)
 
@@ -53,7 +54,8 @@ class Tower(object):
 
     def attack(self, enemies):
         for enemy in enemies:
-            if (enemy.x - self.x) ** 2 + (enemy.y - self.y) ** 2 <= self.radius ** 2:
+            if (enemy.x - self.x - self.tower_images.get_width() // 2) ** 2 + \
+                    (enemy.y - self.y - self.tower_images.get_height() // 2) ** 2 <= self.radius ** 2:
                 enemy.hp -= self.damage
                 return True
         return False
@@ -80,21 +82,3 @@ class Tower(object):
             return False
         else:
             return True
-
-
-class ArcherTower(object):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.width = 0
-        self.height = 0
-
-        self.selected = False
-        self.range = 0
-        self.tower_imgs1 = tower_imgs1
-        self.price = 0
-        self.radius = 200
-        self.cost = 50
-
-    def get_cost(self):
-        return self.cost

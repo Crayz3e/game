@@ -1,10 +1,8 @@
 import pygame
 import os
-import math
 import main_menu.menu as menu
 import main_menu.button as button
 from enemy.enemy import Enemy
-from tower.tower_archer import ArcherTower
 from tower.tower import Tower
 
 pygame.init()
@@ -14,17 +12,13 @@ current_path = os.path.dirname(__file__)
 display_width = 1920
 display_height = 1080
 
-path_map1 = [[(1, 726), (208, 729), (294, 693), (341, 592), (371, 473), (467, 397), (583, 396), (685, 460), (815, 479),
-              (900, 572), (1001, 565), (1104, 522), (1145, 425), (1159, 327), (1184, 273), (1234, 249)]]
-
-path_map2 = [[(0, 630), (290, 618), (650, 646), (1040, 600), (1358, 687), (1611, 484), (1752, 363), (1919, 377),
-              (1844, 77)]]
-
-path_map3 = [[(0, 134), (79, 277), (166, 450), (435, 496), (661, 541), (891, 583), (1028, 650), (1213, 588),
-              (1311, 391), (1515, 319), (1737, 322), (1919, 405), (1853, 109)]]
-
-path_map4 = [[(0, 835), (292, 795), (338, 568), (545, 470), (827, 496), (948, 685), (1132, 637), (1185, 449),
-              (1422, 388), (1738, 434), (1919, 496), (1845, 103)]]
+path_map = [[(1, 726), (208, 729), (294, 693), (341, 592), (371, 473), (467, 397), (583, 396), (685, 460), (815, 479),
+             (900, 572), (1001, 565), (1104, 522), (1145, 425), (1159, 327), (1184, 273), (1234, 249)],
+            [(0, 630), (290, 618), (650, 646), (1040, 600), (1358, 687), (1611, 484), (1752, 363), (1919, 377)],
+            [(0, 134), (79, 277), (166, 450), (435, 496), (661, 541), (891, 583), (1028, 650), (1213, 588),
+             (1311, 391), (1515, 319), (1737, 322), (1919, 405)],
+            [(0, 835), (292, 795), (338, 568), (545, 470), (827, 496), (948, 685), (1132, 637), (1185, 449),
+             (1422, 388), (1738, 434), (1919, 496)]]
 
 display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
@@ -44,17 +38,49 @@ mini_menu_image = pygame.image.load(current_path + f"/images/td-gui/PNG/win/butt
 
 tower_attack_img = [pygame.image.load(current_path + f"/images/archers/{i}.png") for i in range(64, 70)]
 
-magic_attack_img = [pygame.image.load(current_path + f"/images/magic-tower-game-assets/PNG/{i}.png") for i in range(19, 27)]
+magic_attack_img = [pygame.image.load(current_path + f"/images/magic-tower-game-assets/PNG/{i}.png")
+                    for i in range(19, 27)]
 
 stone_attack_img = [pygame.image.load(current_path + f"/images/stone_towers/{i}.png") for i in range(52, 62)]
 
-enemy_imgs = [pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_run_0{i}.png")
-              for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
+enemy_img_1 = [pygame.transform.scale
+               (pygame.image.load
+                (current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_run_0{i}.png"), (150, 130))
+               for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
 
-enemy_die_img = [pygame.transform.scale
-                 (pygame.image.load
-                  (current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_0{i}.png"), (150, 130))
-                 for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
+enemy_die_img_1 = [pygame.transform.scale
+                   (pygame.image.load
+                    (current_path + f"/images/monster-enemy-game-sprites/PNG/1/1_enemies_1_die_0{i}.png"), (150, 130))
+                   for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
+
+enemy_img_2 = [pygame.transform.scale(pygame.image.load
+               (current_path + f"/images/monster-enemy-game-sprites/PNG/3/3_enemies_1_run_0{i}.png"), (150, 130))
+               for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
+
+enemy_die_img_2 = [pygame.transform.scale
+                   (pygame.image.load
+                    (current_path + f"/images/monster-enemy-game-sprites/PNG/3/3_enemies_1_die_0{i}.png"), (150, 130))
+                   for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
+
+enemy_img_3 = [pygame.transform.scale
+               (pygame.image.load(current_path + f"/images/monster-enemy-game-sprites/PNG/7/7_enemies_1_run_0{i}.png"),
+                (170, 150))
+               for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
+
+enemy_die_img_3 = [pygame.transform.scale
+                   (pygame.image.load
+                    (current_path + f"/images/monster-enemy-game-sprites/PNG/7/7_enemies_1_die_0{i}.png"), (170, 150))
+                   for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
+
+boss_img = [pygame.transform.scale
+            (pygame.image.load(current_path + f"/images/boss-monster-game-sprites/boss_3/PNG/0_boss_run_0{i}.png"),
+             (250, 250))
+            for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
+
+boss_die_img = [pygame.transform.scale
+                (pygame.image.load
+                 (current_path + f"/images/boss-monster-game-sprites/boss_3/PNG/0_boss_die_0{i}.png"), (250, 250))
+                for i in ["00", "02", "04", "05", "06", "07", "09", "11", "13", "15", "17", "19"]]
 
 fire_img = [pygame.transform.scale
             (pygame.image.load(current_path + f"/images/magic-effects-game-sprite/PNG/fire/1_effect_fire_0{i}.png"),
@@ -63,13 +89,13 @@ fire_img = [pygame.transform.scale
                       "16", "17", "18"]]
 
 lightning_img = [pygame.transform.scale
-            (pygame.image.load(current_path + f"/images/magic-effects-game-sprite/PNG/zip/1_effect_zip_0{i}.png"),
-             (900, 2080))
-            for i in ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"]]
+                 (pygame.image.load(current_path + f"/images/magic-effects-game-sprite/PNG/zip/1_effect_zip_0{i}.png"),
+                  (900, 2080))
+                 for i in ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"]]
 
 arm_img = [pygame.transform.scale
-            (pygame.image.load(current_path + f"/images/magic-effects-game-sprite/PNG/def/1_effect_def_0{i}.png"),
-             (900, 2080))
+           (pygame.image.load(current_path + f"/images/magic-effects-game-sprite/PNG/def/1_effect_def_0{i}.png"),
+            (900, 2080))
            for i in ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09"]]
 
 acid_img = [pygame.transform.scale
@@ -80,9 +106,10 @@ acid_img = [pygame.transform.scale
                       "32", "33", "34", "35", "36", "37", "38", "39"]]
 
 freeze_img = [pygame.transform.scale
-            (pygame.image.load(current_path + f"/images/magic-effects-game-sprite/PNG/freeze/1_effect_freeze_0{i}.png"),
-             (900, 2080))
-            for i in ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15"]]
+              (pygame.image.load
+               (current_path + f"/images/magic-effects-game-sprite/PNG/freeze/1_effect_freeze_0{i}.png"),
+               (900, 2080))
+              for i in ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15"]]
 
 time_img = [pygame.transform.scale
             (pygame.image.load(current_path + f"/images/magic-effects-game-sprite/PNG/time/1_effect_time_0{i}.png"),
@@ -90,10 +117,10 @@ time_img = [pygame.transform.scale
             for i in ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]]
 
 stones_img = [pygame.transform.scale
-            (pygame.image.load(current_path + f"/images/magic-effects-game-sprite/PNG/stone/1_effect_stone_0{i}.png"),
-             (900, 2080))
-            for i in ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
-                      "16", "17"]]
+              (pygame.image.load(current_path + f"/images/magic-effects-game-sprite/PNG/stone/1_effect_stone_0{i}.png"),
+               (900, 2080))
+              for i in ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
+                        "16", "17"]]
 
 music_images = [pygame.image.load(current_path + "/images/td-gui/PNG/menu/button_music" + img + ".png")
                 for img in ["", "_off"]]
@@ -148,10 +175,15 @@ def run_game():
     time_magic = False
     stone_magic = False
 
+    acid_dot = 0
+    arm_dot = 0
+    freeze_dot = 0
+    time_dot = 0
+
     bg = pygame.image.load(current_path + "/images/bg1.jpg")
 
-    zip_cnt = 50
-    je_cnt = 999
+    zip_cnt = 0
+    je_cnt = 50
     heart_cnt = 100
 
     time = 0
@@ -174,9 +206,9 @@ def run_game():
             for enemy1 in enemies:
                 enemy1.speed = 0
             failed = pygame.image.load(current_path + "/images/td-gui/PNG/failed/header_failed.png")
-            display.blit(failed, (960 - failed.get_width() / 2, 540 - failed.get_height()))
+            display.blit(failed, (960 - failed.get_width() // 2, 540 - failed.get_height()))
 
-            if time - t == 100:
+            if time - t == 500:
                 game = False
 
         if menu_true:
@@ -319,8 +351,8 @@ def run_game():
                             display.blit(tower_img, mouse_position)
 
                             if event.type == pygame.MOUSEBUTTONUP and not button_archer.pressed(mouse_position):
-                                tw = Tower(mouse_position[0] - tower_img.get_width() // 2 - 75,
-                                                 mouse_position[1] - tower_img.get_height(), 2)
+                                tw = Tower(mouse_position[0] - tower_img.get_width() // 2 - 25,
+                                           mouse_position[1] - tower_img.get_height() + 50, 2, tower_img, display)
                                 archer_towers.append(tw)
                                 not_clicked_archer = False
                     if button_stone.pressed(mouse_position) or not_clicked_stone:
@@ -333,7 +365,7 @@ def run_game():
 
                             if event.type == pygame.MOUSEBUTTONUP and not button_stone.pressed(mouse_position):
                                 tw_s = Tower(mouse_position[0] - tower_img.get_width() // 2,
-                                                 mouse_position[1] - tower_img.get_height() + 18, 3)
+                                             mouse_position[1] - tower_img.get_height() + 18, 3, tower_img, display)
                                 stone_towers.append(tw_s)
                                 not_clicked_stone = False
                     if button_magic.pressed(mouse_position) or not_clicked_magic:
@@ -346,7 +378,7 @@ def run_game():
 
                             if event.type == pygame.MOUSEBUTTONUP and not button_magic.pressed(mouse_position):
                                 tw_m = Tower(mouse_position[0] - tower_img.get_width() // 2,
-                                                 mouse_position[1] - tower_img.get_height() + 50, 5)
+                                             mouse_position[1] - tower_img.get_height() + 50, 5, tower_img, display)
                                 magic_towers.append(tw_m)
                                 not_clicked_magic = False
                     if button_fire.pressed(mouse_position):
@@ -364,21 +396,25 @@ def run_game():
                             zip_cnt -= 50
                             arm_it = 1
                             arm = True
+                            arm_dot = 50
                     if button_acid.pressed(mouse_position):
                         if zip_cnt >= 100:
                             zip_cnt -= 100
                             acid_it = 1
                             acid = True
+                            acid_dot = 50
                     if button_freeze.pressed(mouse_position):
                         if zip_cnt >= 75:
                             zip_cnt -= 750
                             freeze_it = 1
                             freeze = True
+                            freeze_dot = 50
                     if button_time.pressed(mouse_position):
                         if zip_cnt >= 75:
                             zip_cnt -= 75
                             time_it = 1
                             time_magic = True
+                            time_dot = 15
                     if button_stones.pressed(mouse_position):
                         if zip_cnt >= 50:
                             zip_cnt -= 50
@@ -393,114 +429,176 @@ def run_game():
             je_cnt = min(max(0, je_cnt), 999)
             heart_cnt = min(max(0, heart_cnt), 100)
 
-            if fire:
-                display.blit(fire_img[fire_it], (600, -1300))
-                fire_it += 1
-                if fire_it % 19 == 0:
-                    fire = False
-                    for enemy1 in enemies:
-                        enemy1.hp = 0
-            if lig:
-                display.blit(lightning_img[lig_it], (600, -1300))
-                lig_it += 1
-                if lig_it % 14 == 0:
-                    lig = False
-                    for enemy1 in enemies:
-                        enemy1.hp = 0
-            if arm:
-                display.blit(arm_img[arm_it], (600, -1300))
-                arm_it += 1
-                if arm_it % 10 == 0:
-                    arm = False
-                    for enemy1 in enemies:
-                        enemy1.hp = 0
-            if acid:
-                display.blit(acid_img[acid_it], (600, -1100))
-                acid_it += 1
-                if acid_it % 39 == 0:
-                    acid = False
-                    for enemy1 in enemies:
-                        enemy1.hp = 0
-            if freeze:
-                display.blit(freeze_img[freeze_it], (600, -1300))
-                freeze_it += 1
-                if freeze_it % 16 == 0:
-                    freeze = False
-                    for enemy1 in enemies:
-                        enemy1.hp = 0
-            if time_magic:
-                display.blit(time_img[time_it], (600, -1500))
-                time_it += 1
-                if time_it % 14 == 0:
-                    time_magic = False
-                    for enemy1 in enemies:
-                        enemy1.hp = 0
-            if stone_magic:
-                display.blit(stones_img[stones_it], (600, -1300))
-                stones_it += 1
-                if stones_it % 18 == 0:
-                    stone_magic = False
-                    for enemy1 in enemies:
-                        enemy1.hp = 0
+            if time % 70 == 0 and time <= 1910:
+                new_enemy = Enemy(path_map[map_ind][0][0], path_map[map_ind][0][1], path_map[map_ind][-1][0],
+                                  path_map[map_ind][-1][1], 200 * hard, 5 * hard, 0,
+                                  enemy_img_1, enemy_die_img_1, display)
+                enemies.append(new_enemy)
 
-            if time % 70 == 0:
-                path = 0
-                new_enemy = Enemy(path_map1[path][0][0], path_map1[path][0][1], path_map1[path][-1][0],
-                                  path_map1[path][-1][1], 100 * hard, 5 * hard, 0, path)
+            if time % 490 == 0 and time <= 1910:
+                new_enemy = Enemy(path_map[map_ind][0][0], path_map[map_ind][0][1], path_map[map_ind][-1][0],
+                                  path_map[map_ind][-1][1], 400 * hard, 3 * hard, 0,
+                                  enemy_img_2, enemy_die_img_2, display)
+                enemies.append(new_enemy)
+
+            if time % 700 == 0 and time <= 1910:
+                new_enemy = Enemy(path_map[map_ind][0][0], path_map[map_ind][0][1], path_map[map_ind][-1][0],
+                                  path_map[map_ind][-1][1], 500 * hard, 3 * hard, 0,
+                                  enemy_img_3, enemy_die_img_3, display)
+                enemies.append(new_enemy)
+
+            if time == 2000:
+                new_enemy = Enemy(path_map[map_ind][0][0], path_map[map_ind][0][1], path_map[map_ind][-1][0],
+                                  path_map[map_ind][-1][1], 1500 * hard, 1 * hard, 0, boss_img, boss_die_img, display)
                 enemies.append(new_enemy)
 
             if time % 1000 == 0:
                 hard += 1
             
             for enemy1 in enemies:
-                if enemy1.x == path_map1[enemy1.path][-1][0] and enemy1.y == path_map1[enemy1.path][-1][1]:
+                if enemy1.x == path_map[map_ind][-1][0] and enemy1.y == path_map[map_ind][-1][1]:
                     enemies.remove(enemy1)
                     heart_cnt -= 10
                     continue
-                enemy1.move(path_map1[enemy1.path], enemy1.speed)
+                enemy1.move(path_map[map_ind], enemy1.speed)
 
             for enemy1 in enemies:
                 if enemy1.hp <= 0:
-                    display.blit(enemy_die_img[time % 11], (enemy1.x - 70, enemy1.y - 70))
+                    enemy1.draw_die(time)
                     enemies.remove(enemy1)
 
             for enemy1 in enemies:
-                display.blit(pygame.transform.scale(enemy_imgs[position % 12], (150, 130)),
-                             (enemy1.x - 70, enemy1.y - 70))
+                enemy1.draw(position)
 
             position += 1
 
             for tw in archer_towers:
-                display.blit(pygame.image.load(current_path + "/images/arch_towers/at.png"), (tw.x, tw.y))
+                display.blit(pygame.image.load(current_path + "/images/arch_towers/at.png"), (tw.x - 50, tw.y - 50))
 
                 if tw.attack(enemies):
-                    display.blit(tower_attack_img[time % 6], (tw.x + 130, tw.y + 18))
+                    display.blit(tower_attack_img[time % 6], (tw.x + 130 - 50, tw.y + 18 - 50))
                     if time % 6 == 1 or time % 6 == 2 or time % 6 == 3:
                         display.blit(pygame.image.load(current_path + "/images/archers/37.png"),
-                                     (tw.x + 185, tw.y + 15))
+                                     (tw.x + 185 - 50, tw.y + 15 - 50))
                 else:
-                    display.blit(pygame.image.load(current_path + "/images/archers/64.png"), (tw.x + 130, tw.y + 18))
+                    display.blit(pygame.image.load(current_path + "/images/archers/64.png"), (tw.x + 80, tw.y - 32))
 
             for tw_s in stone_towers:
-                display.blit(pygame.image.load(current_path + "/images/stone-tower-game-assets/PNG/17.png"), (tw_s.x, tw_s.y))
+                display.blit(pygame.image.load(current_path + "/images/stone-tower-game-assets/PNG/17.png"), (tw_s.x,
+                                                                                                              tw_s.y))
 
                 if tw_s.attack(enemies):
                     display.blit(stone_attack_img[time % 10], (tw_s.x + 10, tw_s.y - 60))
 
             for tw_m in magic_towers:
-                display.blit(pygame.image.load(current_path + "/images/magic-tower-game-assets/PNG/8.png"), (tw_m.x, tw_m.y))
+                display.blit(pygame.image.load(current_path + "/images/magic-tower-game-assets/PNG/8.png"), (tw_m.x,
+                                                                                                             tw_m.y))
 
                 if tw_m.attack(enemies):
                     display.blit(magic_attack_img[time % 8], (tw_m.x + 63, tw_m.y - 150))
 
-            if time >= 10000:
-                for enemy1 in enemies:
-                    enemy1.hp = 0
+            if fire:
+                display.blit(fire_img[fire_it], (600, -1300))
+                display.blit(fire_img[fire_it], (100, -1000))
+                display.blit(fire_img[fire_it], (800, -1100))
+                fire_it += 1
+                if fire_it % 19 == 0:
+                    fire = False
+                    for enemy1 in enemies:
+                        enemy1.hp -= 50 * hard
+            if lig:
+                display.blit(lightning_img[lig_it], (600, -1300))
+                display.blit(lightning_img[lig_it], (100, -1400))
+                display.blit(lightning_img[lig_it], (800, -1200))
+                display.blit(lightning_img[lig_it], (900, -1450))
+                display.blit(lightning_img[lig_it], (400, -1050))
+                lig_it += 1
+                if lig_it % 14 == 0:
+                    lig = False
+                    for enemy1 in enemies:
+                        enemy1.hp -= 50 * hard
+            if arm:
+                if arm_it < 10:
+                    display.blit(arm_img[arm_it], (600, -1300))
+                arm_it += 1
+                arm_dot -= 1
+                if arm_dot and arm_dot == 49:
+                    for tw in archer_towers:
+                        tw.damage += 1
+                    for tw in stone_towers:
+                        tw.damage += 1
+                    for tw in magic_towers:
+                        tw.damage += 1
+                elif not arm_dot:
+                    for tw in archer_towers:
+                        tw.damage -= 1
+                    for tw in stone_towers:
+                        tw.damage -= 1
+                    for tw in magic_towers:
+                        tw.damage -= 1
+                if arm_it % 10 == 0 and not arm_dot:
+                    arm = False
+            if acid:
+                if acid_it < 39:
+                    display.blit(acid_img[acid_it], (600, -1100))
+                    display.blit(acid_img[acid_it], (100, -1000))
+                    display.blit(acid_img[acid_it], (950, -1050))
+                acid_it += 1
+                acid_dot -= 1
+                if acid_dot == 49:
+                    for enemy1 in enemies:
+                        enemy1.hp -= 25 * hard
+                        enemy1.speed = 5 * hard // 2
+                elif not acid_dot:
+                    for enemy1 in enemies:
+                        enemy1.speed = 5 * hard
+                if acid_it % 39 == 0 and not acid_dot:
+                    acid = False
+            if freeze:
+                if freeze_it < 16:
+                    display.blit(freeze_img[freeze_it], (600, -1350))
+                    display.blit(freeze_img[freeze_it], (100, -1150))
+                    display.blit(freeze_img[freeze_it], (950, -1250))
+                freeze_it += 1
+                freeze_dot -= 1
+                if freeze_dot == 49:
+                    for enemy1 in enemies:
+                        enemy1.speed = 5 * hard // 4
+                elif not freeze_dot:
+                    for enemy1 in enemies:
+                        enemy1.speed = 5 * hard
+                if freeze_it % 16 == 0 and not freeze_dot:
+                    freeze = False
+            if time_magic:
+                if time_it < 13:
+                    display.blit(time_img[time_it], (600, -1500))
+                    display.blit(time_img[time_it], (200, -1100))
+                    display.blit(time_img[time_it], (900, -1300))
+                time_it += 1
+                time_dot -= 1
+                if time_dot == 14:
+                    for enemy1 in enemies:
+                        enemy1.speed = 0
+                elif not time_dot:
+                    for enemy1 in enemies:
+                        enemy1.speed = 5 * hard
+                if time_it % 13 == 0 and not time_dot:
+                    time_magic = False
+            if stone_magic:
+                display.blit(stones_img[stones_it], (650, -1300))
+                display.blit(stones_img[stones_it], (0, -1200))
+                display.blit(stones_img[stones_it], (1200, -1000))
+                stones_it += 1
+                if stones_it % 18 == 0:
+                    stone_magic = False
+                    for enemy1 in enemies:
+                        enemy1.hp -= 25 * hard
 
+            if 2000 < time < 2500 and len(enemies) == 0:
                 win = pygame.image.load(current_path + f"/images/td-gui/PNG/win/header_win.png")
-                display.blit(win, (960 - win.get_width() / 2, 540 - win.get_height()))
+                display.blit(win, (960 - win.get_width() // 2, 540 - win.get_height()))
 
-            if time >= 10100:
+            elif time >= 2500 and len(enemies) == 0:
                 game = False
 
         pygame.display.flip()

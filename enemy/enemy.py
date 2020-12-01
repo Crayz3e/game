@@ -1,5 +1,5 @@
 class Enemy:
-    def __init__(self, x, y, end_x, end_y, hp, speed, pos, path):
+    def __init__(self, x, y, end_x, end_y, hp, speed, pos, images, die, display):
         self.x = x
         self.y = y
         self.end_x = end_x
@@ -7,7 +7,9 @@ class Enemy:
         self.hp = hp
         self.speed = speed
         self.pos = pos
-        self.path = path
+        self.images = images
+        self.die = die
+        self.display = display
 
     def move(self, trace, speed):
         if self.x <= trace[self.pos][0] and self.y <= trace[self.pos][1]:
@@ -53,3 +55,9 @@ class Enemy:
 
         if self.x == trace[self.pos][0] and self.y == trace[self.pos][1]:
             self.pos += 1
+
+    def draw_die(self, it):
+        self.display.blit(self.die[it % len(self.die)], (self.x - 70, self.y - 70))
+
+    def draw(self, it):
+        self.display.blit(self.images[it % len(self.images)], (self.x - 70, self.y - 70))
