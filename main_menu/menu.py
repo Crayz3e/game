@@ -88,7 +88,7 @@ class Menu:
                                      self.play_image)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if button_play.pressed(mouse_position):
+                    if button_play.pressed(mouse_position) and not level_table:
                         del button_play
                         self.play(name_position, play_pos)
 
@@ -200,8 +200,6 @@ class Menu:
             pygame.display.flip()
 
         return ind_map, ind_dif, False, False
-
-        pygame.quit()
 
     def level(self):
         table_y0 = -900  # -3600 for chain
