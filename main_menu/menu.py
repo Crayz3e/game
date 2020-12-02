@@ -147,7 +147,6 @@ class Menu:
                         if button_close.pressed(mouse_position):
                             self.display.blit(pygame.image.load(current_path + "/images/bg.jpg"), (0, 0))
                             run = False
-                            # exit(0)
 
                         if button_next_1.pressed(mouse_position):
                             ind_map = (ind_map + 1) % 4
@@ -182,9 +181,6 @@ class Menu:
                             del button_prev_2
                             del button_start
 
-                            map_img, dif_img, music_img = \
-                                self.map_images[ind_map], self.difficulty_images[ind_dif], self.music_images[ind_music]
-
                             self.game_name = None
                             self.play_image = None
                             self.bg = None
@@ -199,9 +195,11 @@ class Menu:
                             self.empty_button = None
                             self.music_images = None
 
-                            return ind_map, ind_dif, music_img, False
+                            return ind_map, ind_dif, False, True
 
             pygame.display.flip()
+
+        return ind_map, ind_dif, False, False
 
         pygame.quit()
 

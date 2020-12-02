@@ -222,7 +222,6 @@ def run_game():
             stone_towers.clear()
             magic_towers.clear()
             archer_towers.clear()
-            game = True
 
             zip_cnt = 0
             je_cnt = 50
@@ -255,7 +254,7 @@ def run_game():
 
             menu1 = menu.Menu(display)
 
-            map_ind, dif_ind, music_img, menu_true = menu1.run_menu()
+            map_ind, dif_ind, menu_true, game = menu1.run_menu()
             bg = map_image[map_ind]
 
         else:
@@ -359,30 +358,30 @@ def run_game():
             button_time.draw(display)
             button_stones.draw(display)
 
+            mouse_position = pygame.mouse.get_pos()
+
+            if button_archer.direct():
+                show_numbers((icon_pos[0] + 176 * 0 + 90, icon_pos[1] - 30), 50)
+            elif button_stone.direct():
+                show_numbers((icon_pos[0] + 176 * 1 + 90, icon_pos[1] - 30), 75)
+            elif button_magic.direct():
+                show_numbers((icon_pos[0] + 176 * 2 + 100, icon_pos[1] - 30), 100)
+            elif button_fire.direct():
+                show_numbers((icon_pos[0] + 176 * 3 + 100, icon_pos[1] - 30), 100)
+            elif button_lightning.direct():
+                show_numbers((icon_pos[0] + 176 * 4 + 100, icon_pos[1] - 30), 100)
+            elif button_armour_red.direct():
+                show_numbers((icon_pos[0] + 176 * 5 + 90, icon_pos[1] - 30), 50)
+            elif button_acid.direct():
+                show_numbers((icon_pos[0] + 176 * 6 + 100, icon_pos[1] - 30), 100)
+            elif button_freeze.direct():
+                show_numbers((icon_pos[0] + 176 * 7 + 90, icon_pos[1] - 30), 75)
+            elif button_time.direct():
+                show_numbers((icon_pos[0] + 176 * 8 + 90, icon_pos[1] - 30), 75)
+            elif button_stones.direct():
+                show_numbers((icon_pos[0] + 176 * 9 + 90, icon_pos[1] - 30), 50)
+
             for event in pygame.event.get():
-
-                mouse_position = pygame.mouse.get_pos()
-
-                if button_archer.direct():
-                    show_numbers((icon_pos[0] + 176 * 0 + 90, icon_pos[1] - 30), 50)
-                elif button_stone.direct():
-                    show_numbers((icon_pos[0] + 176 * 1 + 90, icon_pos[1] - 30), 75)
-                elif button_magic.direct():
-                    show_numbers((icon_pos[0] + 176 * 2 + 100, icon_pos[1] - 30), 100)
-                elif button_fire.direct():
-                    show_numbers((icon_pos[0] + 176 * 3 + 100, icon_pos[1] - 30), 100)
-                elif button_lightning.direct():
-                    show_numbers((icon_pos[0] + 176 * 4 + 100, icon_pos[1] - 30), 100)
-                elif button_armour_red.direct():
-                    show_numbers((icon_pos[0] + 176 * 5 + 90, icon_pos[1] - 30), 50)
-                elif button_acid.direct():
-                    show_numbers((icon_pos[0] + 176 * 6 + 100, icon_pos[1] - 30), 100)
-                elif button_freeze.direct():
-                    show_numbers((icon_pos[0] + 176 * 7 + 100, icon_pos[1] - 30), 75)
-                elif button_time.direct():
-                    show_numbers((icon_pos[0] + 176 * 8 + 90, icon_pos[1] - 30), 75)
-                elif button_stones.direct():
-                    show_numbers((icon_pos[0] + 176 * 9 + 90, icon_pos[1] - 30), 50)
 
                 if event.type == pygame.MOUSEBUTTONUP:
 
@@ -397,7 +396,6 @@ def run_game():
                             buy_ar = True
 
                         tower_img = pygame.image.load(current_path + "/images/arch_towers/6.png")
-                        display.blit(tower_img, mouse_position)
 
                         if event.type == pygame.MOUSEBUTTONUP and not button_archer.pressed(mouse_position):
                             tw = Tower(mouse_position[0] - tower_img.get_width() // 2 - 25,
@@ -412,7 +410,6 @@ def run_game():
                             buy_st = True
 
                         tower_img = pygame.image.load(current_path + "/images/stone-tower-game-assets/PNG/17.png")
-                        display.blit(tower_img, mouse_position)
 
                         if event.type == pygame.MOUSEBUTTONUP and not button_stone.pressed(mouse_position):
                             tw_s = Tower(mouse_position[0] - tower_img.get_width() // 2,
@@ -427,7 +424,6 @@ def run_game():
                             buy_mg = True
 
                         tower_img = pygame.image.load(current_path + "/images/magic-tower-game-assets/PNG/8.png")
-                        display.blit(tower_img, mouse_position)
 
                         if event.type == pygame.MOUSEBUTTONUP and not button_magic.pressed(mouse_position):
                             tw_m = Tower(mouse_position[0] - tower_img.get_width() // 2,
@@ -476,8 +472,8 @@ def run_game():
                             stone_magic = True
             if buy_ar:
                 tower_img = pygame.image.load(current_path + "/images/arch_towers/at.png")
-                display.blit(tower_img, (mouse_position[0] - tower_img.get_width() // 2 - 25,
-                                         mouse_position[1] - tower_img.get_height() + 120))
+                display.blit(tower_img, (mouse_position[0] - tower_img.get_width() // 2 - 10,
+                                         mouse_position[1] - tower_img.get_height() + 137))
             elif buy_st:
                 tower_img = pygame.image.load(current_path + "/images/stone-tower-game-assets/PNG/17.png")
                 display.blit(tower_img, (mouse_position[0] - tower_img.get_width() // 2,
@@ -571,7 +567,7 @@ def run_game():
                     fire = False
                     for enemy1 in enemies:
                         enemy1.hp -= 50 * hard
-            elif lig:
+            if lig:
                 display.blit(lightning_img[lig_it], (600, -1300))
                 display.blit(lightning_img[lig_it], (100, -1400))
                 display.blit(lightning_img[lig_it], (800, -1200))
@@ -582,7 +578,7 @@ def run_game():
                     lig = False
                     for enemy1 in enemies:
                         enemy1.hp -= 50 * hard
-            elif arm:
+            if arm:
                 if arm_it < 10:
                     display.blit(arm_img[arm_it], (600, -1300))
                 arm_it += 1
@@ -603,7 +599,7 @@ def run_game():
                         tw.damage -= 1
                 if arm_it % 10 == 0 and not arm_dot:
                     arm = False
-            elif acid:
+            if acid:
                 if acid_it < 39:
                     display.blit(acid_img[acid_it], (600, -1100))
                     display.blit(acid_img[acid_it], (100, -1000))
@@ -619,7 +615,7 @@ def run_game():
                         enemy1.speed = 5 * hard
                 if acid_it % 39 == 0 and not acid_dot:
                     acid = False
-            elif freeze:
+            if freeze:
                 if freeze_it < 16:
                     display.blit(freeze_img[freeze_it], (600, -1350))
                     display.blit(freeze_img[freeze_it], (100, -1150))
@@ -634,7 +630,7 @@ def run_game():
                         enemy1.speed = 5 * hard
                 if freeze_it % 16 == 0 and not freeze_dot:
                     freeze = False
-            elif time_magic:
+            if time_magic:
                 if time_it < 13:
                     display.blit(time_img[time_it], (600, -1500))
                     display.blit(time_img[time_it], (200, -1100))
@@ -649,7 +645,7 @@ def run_game():
                         enemy1.speed = 5 * hard
                 if time_it % 13 == 0 and not time_dot:
                     time_magic = False
-            elif stone_magic:
+            if stone_magic:
                 display.blit(stones_img[stones_it], (650, -1300))
                 display.blit(stones_img[stones_it], (0, -1200))
                 display.blit(stones_img[stones_it], (1200, -1000))
